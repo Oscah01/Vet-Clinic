@@ -32,3 +32,50 @@ INSERT INTO animals (name, date_of_birth, escape_attempt, neutered, weight_kg, s
 
 -- Insert Ditto
 INSERT INTO animals (name, date_of_birth, escape_attempt, neutered, weight_kg, species) VALUES ('Ditto', '2022-05-14', 4, true, 22, 'Unknown');
+
+INSERT INTO owners (full_name, age) VALUES ('Sam Smith', 34);
+INSERT INTO owners (full_name, age) VALUES ('Jennifer Orwell', 19);
+INSERT INTO owners (full_name, age) VALUES ('Bob', 45);
+INSERT INTO owners (full_name, age) VALUES ('Melody Pond', 77);
+INSERT INTO owners (full_name, age) VALUES ('Dean Winchester', 14);
+INSERT INTO owners (full_name, age) VALUES ('Jodie Whittaker', 38);
+INSERT INTO species (name) VALUES ('Pokemon');
+INSERT INTO species (name) VALUES ('Digimon');
+
+-- Inserting data into the animals table
+INSERT INTO animals (name, date_of_birth, escape_attempts, neutered, weight_kg)
+VALUES
+    ('Pikachu', '2022-01-01', 0, FALSE, 3.5),
+    ('Agumon', '2021-03-15', 2, TRUE, 4.2),
+    ('Charmander', '2023-05-10', 1, FALSE, 2.1),
+    ('Gatomon', '2020-11-20', 0, TRUE, 2.8);
+
+-- Updating the species_id based on the name
+UPDATE animals
+SET species_id = (
+    CASE
+        WHEN name LIKE '%mon' THEN (SELECT id FROM species WHERE name = 'Digimon')
+        ELSE (SELECT id FROM species WHERE name = 'Pokemon')
+    END
+);
+
+-- Inserting data into the animals table
+INSERT INTO animals (name, date_of_birth, escape_attempts, neutered, weight_kg)
+VALUES
+    ('Pikachu', '2022-01-01', 0, FALSE, 3.5),
+    ('Agumon', '2021-03-15', 2, TRUE, 4.2),
+    ('Charmander', '2023-05-10', 1, FALSE, 2.1),
+    ('Gatomon', '2020-11-20', 0, TRUE, 2.8);
+
+-- Updating the owner_id based on the owner names
+UPDATE animals
+SET owner_id = (
+    CASE
+        WHEN name = 'Agumon' THEN (SELECT id FROM owners WHERE name = 'Sam Smith')
+        WHEN name IN ('Gabumon', 'Pikachu') THEN (SELECT id FROM owners WHERE name = 'Jennifer Orwell')
+        WHEN name IN ('Devimon', 'Plantmon') THEN (SELECT id FROM owners WHERE name = 'Bob')
+        WHEN name IN ('Charmander', 'Squirtle', 'Blossom') THEN (SELECT id FROM owners WHERE name = 'Melody Pond')
+        WHEN name IN ('Angemon', 'Boarmon') THEN (SELECT id FROM owners WHERE name = 'Dean Winchester')
+    END
+);
+
