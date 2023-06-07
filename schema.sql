@@ -30,3 +30,11 @@ CREATE TABLE species (
   name VARCHAR(255)
 );
 
+-- Create the visits join table
+CREATE TABLE visits (
+    animal_id INTEGER,
+    vet_id INTEGER,
+    visit_date DATE,
+    FOREIGN KEY (animal_id) REFERENCES animals (id),
+    FOREIGN KEY (vet_id) REFERENCES vets (id)
+);
